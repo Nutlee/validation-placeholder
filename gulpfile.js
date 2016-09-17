@@ -55,7 +55,7 @@ path.html = (function() {
 path.images = (function() {
 	return {
 		"src":path.src+"/images/**/*",		
-		"dist":path.dist+"/images/**/*"
+		"dist":path.dist+"/images/"
 	}
 })();
 
@@ -220,11 +220,8 @@ gulp.task('watch-dev',function() {
 // 初始化 init
 gulp.task('lib-init',function(){
 	var jslibs = [
-			"bower_components/bootstrap/dist/js/bootstrap.min.js",
 			"bower_components/jquery/dist/jquery.min.js"],
-		csslibs = [
-			"bower_components/bootstrap/dist/css/bootstrap.min.css"
-			];
+		csslibs = [];
 	gulp.src(jslibs)
 	.pipe(gulp.dest(path.dist+"/lib/js/"));	
 	gulp.src(csslibs)
