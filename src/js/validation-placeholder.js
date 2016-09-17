@@ -179,12 +179,10 @@
            			var $this = $(this),
            			    data = $this.data('placeholder');
            				$placeholder = data.placeholderTarget;
-           			data.warnText = content;
+           			data.warnText = content || data.warnText;
      				data.warn = true;
      				if ( data.isSupportPlaceholder && !data.placeholderTarget) {
-     					$placeholder = data.placeholderTarget = $('<span>', {
-     					               				'class': data.className
-     					            			});
+     					$placeholder = data.placeholderTarget = $('<span>', { 'class': data.className});
      					data.target.parent().append($placeholder).on('click.placeholder', function(event) {
      						initHide(data);
      					}).on('blur.placeholder', 'input', function(event) {

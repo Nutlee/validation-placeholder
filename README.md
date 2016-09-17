@@ -45,7 +45,7 @@
 	```
 	$('#phone').placeholder('updateHolderText','电话号码');
 	```
-	* showWarn: 显示报错信息
+	* showWarn: 显示报错信息，如果缺省则使用初始化时的值
 	
 	```
 	$('#phone').placeholder('showWarn','请输入正确的手机号');
