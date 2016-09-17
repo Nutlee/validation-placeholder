@@ -19,6 +19,8 @@
 	gulp
 	```
 	
+	在线预览请[点击](http://nutlee.space/Front-end-Demo/demos/validation-placeholder/html/index.html)
+	
 * 如需直接使用，请拷贝 public/js 下 validation-placeholder.min.js 使用
 	
 ## 接口及详细使用
