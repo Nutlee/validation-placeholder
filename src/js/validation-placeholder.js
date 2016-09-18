@@ -9,7 +9,8 @@
 			'warn': false,
 			'warnText': '错误',
 			'warnClass': 'warn',
-			'text': ''
+			'text': '',
+            'IEmodal': false
 		};
 		function isSupportPlaceholder() {
 			return 'placeholder' in document.createElement('input');
@@ -22,6 +23,7 @@
 				$parent = $target.parent();
 
         	if ( !data.warn) {
+                data.targetValue = targetValue;
             	if ( !targetValue ) {
             		// $placeholder.text(data.text);
 	            	methods.show.call($target[0]);
@@ -37,27 +39,28 @@
         		methods.show.call($target[0]);
         	}	
         	
-        	console.log(data.text+'隐藏时',targetValue);
-        			
+        	console.log(data.text+'隐藏时',data.targetValue);			
 		}
 		function initHide(data) {
 			var className = data.warnClass,
 				$target = data.target,
 				targetValue = data.targetValue;
 
+            // 为了 keyup 时移除，判断一下防止影响当前输入
 			if ( !$target.val() ) {
 				$target.val(targetValue);
 			} else {
 				data.targetValue = $target.val();
-			}
+            }
+            // $target.val(targetValue); 
 			if (data.isSupportPlaceholder) {
 				$target.attr('placeholder', data.text);
 			}
 	    	$target.parent().removeClass(className);
 	    	methods.hide.call($target);
-	    	// $target.focus();
+	    	$target.focus();
 	    	
-	    	console.log(data.text+'显示时', targetValue);
+	    	console.log(data.text+'显示时', data.targetValue);
 		}
 
 		function setPlaceHolderOnIE(options) {
@@ -73,7 +76,6 @@
 
             methods.reposition.call($(this));
             $parent.append($placeholder).on('click.placeholder', function(event) {
-
             	initHide(data);
             }).on('blur.placeholder', 'input', function(event) {
             	initShow(data);
@@ -87,16 +89,14 @@
 			}
 			// console.log(this.placeholder);
 		}
-		function setText($placeholder,text) {
 
-		}
 		function initData(options,isSupPlaceholder) {
 			var $this = $(this);
-    	    $this.data('placeholder', $.extend({},{
+    	    return $this.data('placeholder', $.extend({},{
 	        	'target': $this,
 	        	'text': options.text,
 	        	'isSupportPlaceholder': isSupPlaceholder
-    	    },options));			
+    	    },options)).data('placeholder');			
 		}
         var methods = {
             init: function(options) {
@@ -105,17 +105,22 @@
                 	var $this = $(this),
                 		data = $this.data('placeholder'),
                 		placeholderText = options.text,
-                		isSupPlaceholder = isSupportPlaceholder();
+                		isSupPlaceholder = isSupportPlaceholder() && !options.IEmodal;
 
                 	// console.log(this);
                 	if (!data) {
-                	   	initData.call(this,options,isSupPlaceholder);
+                	   	data = initData.call(this,options,isSupPlaceholder);
                 	} 
                 	if ( isSupPlaceholder ) {
                 		setPlaceHolderOnModern.call(this,placeholderText);
                 	} else {
                 		setPlaceHolderOnIE.call(this,options);
+                        if ( this.value ) {
+                            initShow(data);
+                            initHide(data);
+                        }
                 	}
+
                 });
             },
             destroy: function() {
@@ -126,7 +131,7 @@
 	                    data.target.parent().off('.placeholder');
 	                    data.placeholderTarget.remove();
 	                    $this.removeData('placeholder');
-                    };
+                    }
                 });
 
             },
@@ -157,7 +162,7 @@
 		            	// console.dir( );
 		            	// console.log( (parseInt($target.css('padding-left'))) || 0 );
 		            	$placeholder.css(placeStyle);
-	            	};
+	            	}
             	});
             },
             show: function() {
@@ -189,7 +194,7 @@
      						initShow(data);
      						// methods.show.call(that);
      					});
-     				};
+     				}
      				methods.reposition.call($(this));
      				initShow(data);
            			// methods.show.call(this);
@@ -202,7 +207,7 @@
 	      				$placeholder = data.placeholderTarget;
 	      			if (!data.warn) {
 	      				return;
-	      			};
+	      			}
 					initHide(data);
 	      			// methods.hide.call(this);
 					data.warn = false;

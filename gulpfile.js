@@ -102,7 +102,6 @@ gulp.task('scripts', function() {
 });
 // 开发环境
 gulp.task('scripts-dev', function() {
-	console.log(path.scripts.src);
     return gulp.src(path.scripts.src)
         .pipe(jshint())
         .pipe(jshint.reporter('default'))

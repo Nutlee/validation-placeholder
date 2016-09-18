@@ -18,10 +18,10 @@
 		<h1 id="title">验证表单</h1>
 		<form id="myform" action="">
 			<div class="form-row">
-				<input id="phone" type="text">
+				<input id="phone" type="text" value="18913250221">
 			</div>
 			<div class="form-row">
-				<input id="password" type="password">
+				<input id="password" type="password" value="1">
 			</div>
 			<div class="form-row">
 				<button type="button">验证</button>
@@ -33,10 +33,12 @@
 	<script>
 		$(function(){
 			var $phone = $('#phone').placeholder({
-				text: "手机号"
+				text: "手机号",
+				IEmodal: true
 			});
 			var $pwd = $('#password').placeholder({
-				text: "密码"
+				text: "密码",
+				IEmodal: true
 			});
 			$('#myform').on('keyup','input',function(){
 				$(this).placeholder('removeWarn');

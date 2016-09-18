@@ -36,7 +36,9 @@
 		// 警告文字，可初始化时绑定
 		warnText: '请输入正确手机号',
 		// 加到 input 标签的父容器上，默认为 warn ，需用户手动定义这个样式
-		warnClass: 'warn'
+		warnClass: 'warn',
+		// 强制 IE8 模式 (生成标签做 placeholder， 一般用于自定义 placeholder)，默认 false
+		IEmodal: false
 	});
 	```
 	
