@@ -41,6 +41,7 @@
 				IEmodal: true
 			});
 			$('#myform').on('keyup','input',function(){
+				console.log($(this).val());
 				$(this).placeholder('removeWarn');
 			}).on('click', 'button', function(event) {
 				event.preventDefault();

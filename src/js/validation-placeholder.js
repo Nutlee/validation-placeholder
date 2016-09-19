@@ -1,6 +1,6 @@
 /**
  * Author: Nutlee
- * Date: 20160917
+ * Date: 20160919
  * 兼容性 placeholder 及 valudation 验证接口
  * 
  */
@@ -24,7 +24,7 @@
 
         	if ( !data.warn) {
                 data.targetValue = targetValue;
-            	if ( !targetValue ) {
+            	if ( !targetValue && !$target[0].placeholder) {
             		// $placeholder.text(data.text);
 	            	methods.show.call($target[0]);
             	}
@@ -41,26 +41,28 @@
         	
         	console.log(data.text+'隐藏时',data.targetValue);			
 		}
-		function initHide(data) {
+		function initHide(data,isKeyUp) {
 			var className = data.warnClass,
 				$target = data.target,
 				targetValue = data.targetValue;
 
             // 为了 keyup 时移除，判断一下防止影响当前输入
-			if ( !$target.val() ) {
-				$target.val(targetValue);
-			} else {
-				data.targetValue = $target.val();
+            // keyup 时判断一下 否则keyup时按删除后还是存在
+            if ( !$target.val() && !isKeyUp) {
+                $target.val(targetValue);
+            } else {
+                data.targetValue = $target.val();
             }
             // $target.val(targetValue); 
-			if (data.isSupportPlaceholder) {
-				$target.attr('placeholder', data.text);
-			}
-	    	$target.parent().removeClass(className);
-	    	methods.hide.call($target);
-	    	$target.focus();
+            if (data.isSupportPlaceholder) {
+                $target.attr('placeholder', data.text);
+            }
+            $target.parent().removeClass(className);
+            methods.hide.call($target);
+            $target.focus();
+            
+            // console.log(data.text+'显示时', data.targetValue);
 	    	
-	    	console.log(data.text+'显示时', data.targetValue);
 		}
 
 		function setPlaceHolderOnIE(options) {
@@ -72,7 +74,6 @@
                		'class': options.className
             	});
             // console.log($(this).data('placeholder'));
-
 
             methods.reposition.call($(this));
             $parent.append($placeholder).on('click.placeholder', function(event) {
@@ -205,10 +206,11 @@
 	      			var $this = $(this),
 	      			    data = $this.data('placeholder');
 	      				$placeholder = data.placeholderTarget;
-	      			if (!data.warn) {
-	      				return;
-	      			}
-					initHide(data);
+
+                    if (!data.warn) {
+                        return;
+                    }
+					initHide(data,true);
 	      			// methods.hide.call(this);
 					data.warn = false;
 	      		});    
